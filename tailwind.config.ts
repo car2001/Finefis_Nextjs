@@ -11,6 +11,12 @@ export default {
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
+        lamaSky: "#C3EBFA",
+        lamaSkyLite: "#EDF9FD",
+        lamaPurple: "#CFCEFF",
+        lamaPurpleLite: "#F1F0FF",
+        lamaYellow: "#FAE27C",
+        lamaYellowLite: "#FEDCE8",
       },
     },
   },
