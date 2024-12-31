@@ -1,0 +1,188 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model catalogo_declaracion {
+  id_formulario Decimal  @db.Decimal(5, 0)
+  descripcion   String?  @db.VarChar(255)
+  id_empresa    String   @db.Uuid
+  periodo       Decimal? @db.Decimal(2, 0)
+
+  @@id([id_formulario, id_empresa])
+}
+
+model cliente {
+  id_cliente  BigInt    @id(map: "c_cliente_pkey") @default(autoincrement())
+  nombre      String?   @db.VarChar
+  tenant_guid BigInt?
+  tipo_plan   String?   @db.VarChar
+  cliente_key String?   @db.VarChar
+  dni         Decimal?  @db.Decimal
+  empresa     empresa[]
+}
+
+model cronograma_venci {
+  id_cronograma BigInt    @id @default(autoincrement())
+  f_periodo     String?   @db.Char(4)
+  ult_dig_ruc   Int?
+  f_vencimiento DateTime? @db.Date
+}
+
+model declaracion {
+  id_declaracion    String    @id @db.Uuid
+  formulario        BigInt?
+  f_presentacion    DateTime? @db.Date
+  monto_declarado   Decimal?  @db.Decimal
+  e_declarado       String?   @db.Char(1)
+  com_observado     String?   @db.VarChar(255)
+  f_respuesta       DateTime? @db.Date
+  f_max_declarar    DateTime? @db.Date
+  ind_rectificacion String?   @db.Bit(1)
+  ind_pago          String?   @db.Bit(1)
+  total_deuda       Decimal?  @db.Decimal
+  f_creacion        DateTime? @db.Timestamp(6)
+  nro_orden         String?   @db.Char(10)
+  tipo_declaracion  String?   @db.VarChar(5)
+  f_periodo         String?   @db.Char(6)
+  ind_confirmado    String?   @db.Bit(1)
+  codigo            BigInt
+  id_empresa        String    @db.Uuid
+
+  @@unique([codigo, formulario, id_empresa, f_periodo], map: "idx_declaracion_cod_form_empresa_periodo")
+}
+
+model detalle_tributo {
+  id_detalle_trib String   @id @db.Uuid
+  id_declaracion  String?  @db.Uuid
+  id_empresa      String?  @db.Uuid
+  descripcion     String?  @db.VarChar(255)
+  total_deuda     Decimal? @db.Decimal
+  total_pago      Decimal? @db.Decimal
+  codigo_tributo  Decimal? @db.Decimal
+
+  @@unique([id_declaracion, id_empresa, codigo_tributo], map: "idx_detalle_tributo_declaracion_empresa_tributo")
+}
+
+model empresa {
+  id_empresa   String   @id @unique(map: "id_empresa") @db.Uuid
+  ruc          String?  @db.VarChar(20)
+  razon_social String?  @db.VarChar(255)
+  id_cliente   BigInt?
+  usuario      String?  @db.VarChar(20)
+  clave        String?  @db.VarChar(50)
+  inactivo     String?  @db.Bit(1)
+  bloqueado    String?  @db.Bit(1)
+  email        String?  @db.VarChar(255)
+  cliente      cliente? @relation(fields: [id_cliente], references: [id_cliente], onDelete: NoAction, onUpdate: NoAction, map: "fk_empresa_cliente")
+}
+
+model empresa_declaracion {
+  id_declaracion_emp  String    @db.Uuid
+  id_empresa          String    @db.Uuid
+  per_rev             String?   @db.Char(1)
+  d_a_venci           Decimal?  @db.Decimal(2, 0)
+  d_d_venci           Decimal?  @db.Decimal(2, 0)
+  d_a_v_rev           Decimal?  @db.Decimal(2, 0)
+  d_d_v_rev           Decimal?  @db.Decimal(2, 0)
+  d_a_v_alerta        Decimal?  @db.Decimal(2, 0)
+  f_creacion          DateTime? @db.Timestamp(6)
+  per_ini_declaracion String?   @db.Char(4)
+  per_fin_declaracion String?   @db.Char(4)
+  codigo              BigInt    @default(autoincrement())
+  ind_notif_apagado   String?   @db.Bit(1)
+  d_a_venci_2         Decimal?  @db.Decimal
+  d_recur_d_venci     Decimal?  @db.Decimal
+  ind_notif_by_chg    String?   @db.Bit(1)
+
+  @@id([id_declaracion_emp, id_empresa])
+}
+
+model notificacion {
+  id_notificacion   String    @id @db.Uuid
+  id_empresa        String?   @db.Uuid
+  tipo_notificacion String?   @db.Char(50)
+  f_envio           DateTime? @db.Date
+  e_envio           String?   @db.Char(2)
+  correo            String?   @db.VarChar(255)
+  whatsapp          String?   @db.Char(9)
+  periodo           Decimal?  @db.Decimal
+  f_ult_ejecucion   DateTime? @db.Date
+  f_creacion        DateTime? @db.Timestamp(6)
+  ruc               String?   @db.Char(11)
+  reporte_cuerpo    String?
+  reporte_asunto    String?   @db.Char(255)
+  leido             String?   @db.Bit(1)
+  f_periodo         String?   @db.Char(4)
+  Monto_total       Float?
+  estado_declarado  String?   @db.Char(4)
+}
+
+model pago {
+  id_pago        String    @id @db.Uuid
+  id_declaracion String?   @db.Uuid
+  id_empresa     String?   @db.Uuid
+  nro_orden      String?   @db.Char(10)
+  num_operacion  String?   @db.Char(10)
+  id_formulario  Decimal?  @db.Decimal(5, 0)
+  f_pago         DateTime? @db.Date
+  f_creacion     DateTime? @db.Timestamp(6)
+  monto          Decimal?  @db.Decimal
+  banco          String?   @db.VarChar(200)
+  f_presentacion DateTime? @db.Date
+
+  @@unique([id_declaracion, id_empresa, id_formulario], map: "idx_pago_declaracion_empresa_formulario")
+}
+
+model regla_notificacion {
+  id_rule       BigInt  @id @default(autoincrement())
+  id_empresa    String? @db.Uuid
+  tipo_regla    String? @db.Char(1)
+  descripcion   String? @db.Char(1)
+  daysbeforedue Int?
+  daysafterdue  Int?
+}
+
+model reporte_notificacion {
+  id_reporte        BigInt    @id @default(autoincrement())
+  ruc               String?   @db.Char(11)
+  tipo_reporte      BigInt?
+  reporte_cuerpo    String?
+  reporte_asunto    String?   @db.Char(255)
+  f_generacion      DateTime? @db.Date
+  f_envio           DateTime? @db.Date
+  enviado           String?   @db.Bit(1)
+  leido             String?   @db.Bit(1)
+  f_periodo_reporte DateTime? @db.Date
+}
+
+model revision_declaracion {
+  id_revision     String    @id @db.Uuid
+  f_ini_revision  DateTime? @db.Date
+  f_fin_revision  DateTime? @db.Date
+  f_ult_ejecucion DateTime? @db.Date
+  f_creacion      DateTime? @db.Timestamp(6)
+  f_periodo       String?   @db.Char(4)
+}
+
+model rol {
+  id_rol BigInt @id(map: "c_rol_pkey")
+  nombre String @db.VarChar
+}
+
+model usuario {
+  id_usuario BigInt @id(map: "c_usuario_pkey")
+  usuario    String @db.Char(1)
+  clave      String @db.Char(1)
+}
+
+model usuario_rol {
+  id_usuario_rol BigInt @id(map: "c_usuario_rol_pkey") @default(autoincrement())
+  id_usuario     BigInt
+  id_rol         BigInt
+  id_cliente     BigInt
+}

@@ -1,13 +1,31 @@
 "use client"
 
-import { useState } from "react";
+import { Dispatch, JSX, SetStateAction, useState } from "react";
 import Image from "next/image";
+import dynamic from "next/dynamic";
+import { UUID } from "crypto";
+// import TeacherForm from "./forms/TeacherForm";
+
+const TeacherForm = dynamic(() => import('./forms/TeacherForm'), {
+    loading: () => <p>Loading...</p>,
+});
+const EmpresaForm = dynamic(() => import('./forms/EmpresaForm'), {
+    loading: () => <p>Loading...</p>,
+})
+
+const forms: {
+    [key:string] : (setOpen:Dispatch<SetStateAction<boolean>>, type: "create" | "update", data?: any) => JSX.Element
+} = {
+    teacher: (setOpen,type, data) => <TeacherForm type={type} data={data} setOpen={setOpen} />,
+    empresa: (setOpen,type, data) => <EmpresaForm type={type} data={data} setOpen={setOpen} />
+};
 
 const FormModal = ({table,type,data,id} : {
-    table: "teacher" | "student";
+    table: "teacher" | "empresa";
     type: "create" | "update" | "delete";
     data?: any;
-    id?: number;
+    id?: number | string | bigint;
+    
 }) => {
 
     const [open, setOpen] = useState(false);
@@ -25,9 +43,11 @@ const FormModal = ({table,type,data,id} : {
                 <span className="text-center font-medium">All data will be lost. Are you sure you want to delete this {table}?</span>
                 <button className="bg-red-700 text-white py-2 px-4 rounded-md border-none w-max self-center">Delete</button>
             </form>
-        ) : 
+        ) : type === "create" ||  type === "update" ?
         (
-            "created or update form"
+            forms[table](setOpen,type,data)
+        ) : (
+        "Form not found"
         );
     }
 

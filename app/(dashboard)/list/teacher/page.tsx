@@ -79,12 +79,12 @@ const TeacherListPage = () => {
                 <td className="hidden md:table-cell">{item.address}</td>
                 <td>
                     <div className="flex items-center gap-2">
-                        <Link href={`/list/teacher/${item.id}`}>
-                            {/* <button className="w-7 h-7 flex items-center justify-center rounded-full bg-lamaSky">
+                        {/* <Link href={`/list/teacher/${item.id}`}>
+                            <button className="w-7 h-7 flex items-center justify-center rounded-full bg-lamaSky">
                                 <Image src="/view.png" alt="" width={16} height={16} />
-                            </button> */}
-                            <FormModal type="update" table="teacher" id={item.id} />
-                        </Link>
+                            </button> 
+                        </Link> */}
+                        <FormModal type="update" table="teacher" id={item.id} data={item} />
                         {/* <button className="w-7 h-7 flex items-center justify-center rounded-full bg-lamaPurple">
                                 <Image src="/delete.png" alt="" width={16} height={16} />
                         </button> */}
