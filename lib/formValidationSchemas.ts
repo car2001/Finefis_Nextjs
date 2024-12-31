@@ -20,14 +20,24 @@ export const teacherSchema = z.object({
 export type TeacherSchema = z.infer<typeof teacherSchema>;
 
 export const empresaSchema = z.object({
+    id_empresa:z.string().optional(),
     ruc: z.string()
         .min(1,{message: "El RUC debe tener al menos un dígito"})
         .max(11, {message: "El RUC no puede tener más de 11 dígitos"})
         .regex(/^\d+$/, "El Ruc debe contener solo números"),
-    razonSocial: z.string().min(1, {message: "Razón social es obligatorio!"}),
+    razon_social: z.string().min(1, {message: "Razón social es obligatorio!"}),
     usuario: z.string().min(1, {message: "Usuario es obligatorio!"}),
     clave: z.string().min(1, {message: "Clave es obligatorio!"}),
     email: z.string().email({message: "Email inválido!"}),
+    id_cliente: z.string().min(1, {message: "Cliente es obligatorio"})
 });
 
 export type EmpresaSchema = z.infer<typeof empresaSchema>;
+
+export const clienteSchema = z.object({
+    id_cliente:z.coerce.number().optional(),
+    nombre: z.string().min(1, {message: "Nombre es obligatorio!"}),
+    dni: z.string().min(1, {message: "DNI es obligatorio!"}),
+});
+
+export type ClienteSchema = z.infer<typeof clienteSchema>;

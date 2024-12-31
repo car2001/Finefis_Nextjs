@@ -3,8 +3,10 @@ import Pagination from "@/components/Pagination"
 import FormModal from "@/components/FormModal"
 import Image from "next/image"
 import Table from "@/components/Table"
-import { cliente } from "@prisma/client"
+import { cliente, Prisma } from "@prisma/client"
 import prisma from "@/lib/prisma"
+import { ITEM_PER_PAGE } from "@/lib/settings"
+import FormContainer from "@/components/FormContainer"
 
 type ClientesList = cliente
 
@@ -37,17 +39,47 @@ const renderRow = (item: ClientesList) => {
             <td className="hidden md:table-cell">{item.dni?.toString() || "" }</td>
             <td>
                 <div className="flex items-center gap-2">
-                    <FormModal type="update" table="teacher" id={item.id_cliente} data={item} />
-                    <FormModal type="delete" table="teacher" id={item.id_cliente}/>
+                    <FormContainer type="update" table="cliente" id={item.id_cliente} data={item} />
+                    <FormContainer type="delete" table="cliente" id={item.id_cliente}/>
                 </div>
             </td>
         </tr>
     )
 }
 
-const ClientesListPage = async () => {
+const ClientesListPage = async ({ 
+    searchParams 
+}: { 
+    searchParams: { [key: string]: string | undefined };
+}) => {
 
-    const clientesData = await prisma.cliente.findMany({});
+    const {page, ...queryParams} = await searchParams;
+    const index = page ? parseInt(page) : 1;
+
+    // URL PARAMS CONDITION
+    const query: Prisma.clienteWhereInput = {};
+
+    if(queryParams){
+        for (const [key,value] of Object.entries(queryParams)){
+            if(value !== undefined){
+                switch(key){
+                    case "search":
+                        query.nombre = {contains: value, mode: "insensitive"}
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+    }
+    const [clientesData, count] = await prisma.$transaction([
+        prisma.cliente.findMany({
+            where: query,
+            take: ITEM_PER_PAGE,
+            skip: ITEM_PER_PAGE * (index-1),
+        }),
+        prisma.cliente.count(),
+    ])
 
     return (
         <div className="bg-white p-4 rounded-md flex-1 m-4 mt-0">
@@ -64,14 +96,14 @@ const ClientesListPage = async () => {
                         <button className="w-8 h-8 flex items-center justify-center rounded-full bg-lamaYellow">
                             <Image src="/sort.png" alt="" width={14} height={14} />
                         </button>
-                        <FormModal type="create" table="teacher"/>
+                        <FormContainer type="create" table="cliente"/>
                     </div>
                 </div>
             </div>     
             {/* List */}
             <Table columns={columns} renderRow={renderRow} data={clientesData}/>
             {/* Pagination */}
-            <Pagination/>
+            <Pagination page={index} count={count}/>
         </div>
     )
 }

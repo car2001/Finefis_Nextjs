@@ -6,6 +6,7 @@ import Table from "@/components/Table"
 import { cliente, empresa, Prisma } from "@prisma/client"
 import prisma from "@/lib/prisma"
 import { ITEM_PER_PAGE } from "@/lib/settings"
+import FormContainer from "@/components/FormContainer"
 
 type EmpresaList = empresa & {cliente: cliente}
 
@@ -56,8 +57,8 @@ const renderRow = (item: EmpresaList) => {
             <td className="hidden md:table-cell">{item.email}</td>
             <td>
                 <div className="flex items-center gap-2">
-                    <FormModal type="update" table="empresa" id={item.id_empresa} data={item} />
-                    <FormModal type="delete" table="empresa" id={item.id_empresa}/>
+                    <FormContainer type="update" table="empresa" id={item.id_empresa} data={item} />
+                    <FormContainer type="delete" table="empresa" id={item.id_empresa}/>
                 </div>
             </td>
         </tr>
@@ -117,7 +118,7 @@ const EmpresasListPage = async ({
                         <button className="w-8 h-8 flex items-center justify-center rounded-full bg-lamaYellow">
                             <Image src="/sort.png" alt="" width={14} height={14} />
                         </button>
-                        <FormModal type="create" table="empresa"/>
+                        <FormContainer type="create" table="empresa"/>
                     </div>
                 </div>
             </div>     

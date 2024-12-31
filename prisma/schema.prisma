@@ -17,12 +17,12 @@ model catalogo_declaracion {
 }
 
 model cliente {
-  id_cliente  BigInt    @id(map: "c_cliente_pkey") @default(autoincrement())
+  id_cliente  Int       @id(map: "c_cliente_pkey") @default(autoincrement())
   nombre      String?   @db.VarChar
   tenant_guid BigInt?
   tipo_plan   String?   @db.VarChar
   cliente_key String?   @db.VarChar
-  dni         Decimal?  @db.Decimal
+  dni         String?   @db.VarChar
   empresa     empresa[]
 }
 
@@ -72,7 +72,7 @@ model empresa {
   id_empresa   String   @id @unique(map: "id_empresa") @db.Uuid
   ruc          String?  @db.VarChar(20)
   razon_social String?  @db.VarChar(255)
-  id_cliente   BigInt?
+  id_cliente   Int?
   usuario      String?  @db.VarChar(20)
   clave        String?  @db.VarChar(50)
   inactivo     String?  @db.Bit(1)
