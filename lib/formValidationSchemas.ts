@@ -41,3 +41,34 @@ export const clienteSchema = z.object({
 });
 
 export type ClienteSchema = z.infer<typeof clienteSchema>;
+
+export const empresaDeclaracionSchema = z.object({
+    id_declaracion_emp:z.string().optional(),
+    id_empresa: z.string().min(1, {message: "Empresa es obligatorio!"}),
+    per_ini_declaracion: z.string()
+        .min(4, {message: "Periodo Inicial es obligatorio!"})
+        .max(4, {message: "Periodo Inicial debe tener max 4 dígitos!"})
+        .regex(/^\d+$/, "Periodo Inicial debe contener solo números"),
+    per_fin_declaracion: z.string()
+        .min(4, {message: "Periodo Final es obligatorio!"})
+        .max(4, {message: "Periodo Final debe tener max 4 dígitos!"})
+        .regex(/^\d+$/, "Periodo Final debe contener solo números"),
+    d_a_venci: z.string()
+        .min(1, {message: "Dias Antes de Vencimiento 1 es obligatorio!"})
+        .regex(/^\d+$/, "Dias Antes de Vencimiento 1 debe contener solo números"),
+    d_a_venci_2: z.string()
+        .min(1, {message: "Dias Antes de Vencimiento 2 es obligatorio!"})
+        .regex(/^\d+$/, "Dias Antes de Vencimiento 2 debe contener solo números"),
+    d_d_venci: z.string()
+        .min(1, {message: "Dias Despúes de Vencimiento es obligatorio!"})
+        .regex(/^\d+$/, "Dias Despúes de Vencimiento debe contener solo números"),
+    d_a_v_alerta: z.string()
+        .min(1, {message: "Dias de Notificación Despúes de Vencimiento obligatorio!"})
+        .regex(/^\d+$/, "Dias de Notificación Despúes de Vencimiento debe contener solo números"),
+    d_recur_d_venci: z.string()
+        .min(1, {message: "Dias de Frecuencia Revision obligatorio!"})
+        .regex(/^\d+$/, "Dias de Frecuencia Revision debe contener solo números"),
+    ind_notif_apagado: z.boolean().optional()
+});
+
+export type EmpresaDeclaracionSchema = z.infer<typeof empresaDeclaracionSchema>;

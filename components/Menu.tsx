@@ -12,13 +12,13 @@ const menuItems = [
                 visible: ["admin", "teacher", "student", "parent"],
             },
             {
-                icon: "/teacher.png",
+                icon: "/student.png",
                 label: "Clientes",
                 href: "/list/clientes",
                 visible: ["admin", "teacher"],
             },
             {
-                icon: "/student.png",
+                icon: "/empresa.png",
                 label: "Empresas",
                 href: "/list/empresas",
                 visible: ["admin", "teacher"],
@@ -26,7 +26,7 @@ const menuItems = [
             {
                 icon: "/subject.png",
                 label: "Declaraciones",
-                href: "/list/subjects",
+                href: "/list/declaraciones",
                 visible: ["admin"],
             },
         ],

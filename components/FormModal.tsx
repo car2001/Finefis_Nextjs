@@ -3,7 +3,7 @@
 import { Dispatch, JSX, SetStateAction, useActionState, useEffect, useState, useTransition } from "react";
 import Image from "next/image";
 import dynamic from "next/dynamic";
-import { deleteCliente, deleteEmpresa } from "@/lib/actions";
+import { deleteCliente, deleteEmpresa, deleteDeclaracion } from "@/lib/actions";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import { FormContainerProps } from "./FormContainer";
@@ -11,6 +11,7 @@ import { FormContainerProps } from "./FormContainer";
 const deleteActionMap: {[key:string]: any} = {
     empresa: deleteEmpresa,
     cliente: deleteCliente,
+    empresa_declaracion: deleteDeclaracion
 }
 
 const TeacherForm = dynamic(() => import('./forms/TeacherForm'), {
@@ -20,6 +21,9 @@ const EmpresaForm = dynamic(() => import('./forms/EmpresaForm'), {
     loading: () => <p>Loading...</p>,
 })
 const ClienteForm = dynamic(() => import('./forms/ClienteForm'), {
+    loading: () => <p>Loading...</p>,
+})
+const EmpresaDeclaracionForm = dynamic(() => import('./forms/EmpresaDeclaracionForm'), {
     loading: () => <p>Loading...</p>,
 })
 
@@ -33,10 +37,17 @@ const forms: {
 } = {
     teacher: (setOpen,type, data, relatedData) => <TeacherForm type={type} data={data} setOpen={setOpen} relatedData={relatedData} />,
     empresa: (setOpen,type, data, relatedData) => <EmpresaForm type={type} data={data} setOpen={setOpen} relatedData={relatedData} />,
-    cliente: (setOpen,type, data, relatedData) => <ClienteForm type={type} data={data} setOpen={setOpen} relatedData={relatedData} />
+    cliente: (setOpen,type, data, relatedData) => <ClienteForm type={type} data={data} setOpen={setOpen} relatedData={relatedData} />,
+    empresa_declaracion: (setOpen,type, data, relatedData) => <EmpresaDeclaracionForm type={type} data={data} setOpen={setOpen} relatedData={relatedData} />
 };
 
-const FormModal = ({table,type,data,id, relatedData} : FormContainerProps & { relatedData?: any }) => {
+const FormModal = ({
+    table,
+    type,
+    data,
+    id, 
+    relatedData
+} : FormContainerProps & { relatedData?: any }) => {
 
     const [open, setOpen] = useState(false);
 
@@ -48,7 +59,6 @@ const FormModal = ({table,type,data,id, relatedData} : FormContainerProps & { re
 
     const Form = () => {
 
-        const [isPending, startTransition] = useTransition();
         const [state, formAction] = useActionState(deleteActionMap[table] ,{
             success:false, 
             error: false

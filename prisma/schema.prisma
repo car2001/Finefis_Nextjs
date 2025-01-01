@@ -69,16 +69,17 @@ model detalle_tributo {
 }
 
 model empresa {
-  id_empresa   String   @id @unique(map: "id_empresa") @db.Uuid
-  ruc          String?  @db.VarChar(20)
-  razon_social String?  @db.VarChar(255)
-  id_cliente   Int?
-  usuario      String?  @db.VarChar(20)
-  clave        String?  @db.VarChar(50)
-  inactivo     String?  @db.Bit(1)
-  bloqueado    String?  @db.Bit(1)
-  email        String?  @db.VarChar(255)
-  cliente      cliente? @relation(fields: [id_cliente], references: [id_cliente], onDelete: NoAction, onUpdate: NoAction, map: "fk_empresa_cliente")
+  id_empresa          String                @id @unique(map: "id_empresa") @db.Uuid
+  ruc                 String?               @db.VarChar(20)
+  razon_social        String?               @db.VarChar(255)
+  id_cliente          Int?
+  usuario             String?               @db.VarChar(20)
+  clave               String?               @db.VarChar(50)
+  inactivo            String?               @db.Bit(1)
+  bloqueado           String?               @db.Bit(1)
+  email               String?               @db.VarChar(255)
+  cliente             cliente?              @relation(fields: [id_cliente], references: [id_cliente], onDelete: NoAction, onUpdate: NoAction, map: "fk_empresa_cliente")
+  empresa_declaracion empresa_declaracion[]
 }
 
 model empresa_declaracion {
@@ -98,6 +99,7 @@ model empresa_declaracion {
   d_a_venci_2         Decimal?  @db.Decimal
   d_recur_d_venci     Decimal?  @db.Decimal
   ind_notif_by_chg    String?   @db.Bit(1)
+  empresa             empresa   @relation(fields: [id_empresa], references: [id_empresa], onDelete: Cascade, map: "fk_empresa")
 
   @@id([id_declaracion_emp, id_empresa])
 }

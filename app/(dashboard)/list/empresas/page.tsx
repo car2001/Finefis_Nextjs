@@ -26,22 +26,22 @@ const columns = [
         classname:"hidden md:table-cell",
     },
     {
-        header: "Usuario",
+        header: "Usuario SUNAT",
         accessor:"usuario", 
         classname:"hidden lg:table-cell",
     },
     {
-        header: "Clave",
+        header: "Clave SUNAT",
         accessor:"clave", 
         classname:"hidden lg:table-cell",
     },
     {
-        header: "Email",
+        header: "Email de Notificaciones",
         accessor:"email", 
         classname:"hidden lg:table-cell",
     },
     {
-        header: "Actions",
+        header: "Acciones",
         accessor:"actions",
     }
 ]
