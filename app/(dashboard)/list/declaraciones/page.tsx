@@ -85,7 +85,7 @@ const renderRow = (item: EmpresaList) => {
 const DeclaracionesListPage = async ({ 
     searchParams 
 }: { 
-    searchParams: { [key: string]: string | undefined };
+    searchParams: Promise<{ [key: string]: string | undefined }>;
 }) => {
 
     const {page, ...queryParams} = await searchParams;

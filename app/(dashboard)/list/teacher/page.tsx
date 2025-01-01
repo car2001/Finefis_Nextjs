@@ -120,7 +120,7 @@ const TeacherListPage = () => {
             {/* List */}
             <Table columns={columns} renderRow={renderRow} data={teachersData}/>
             {/* Pagination */}
-            <Pagination/>
+            {/* <Pagination/> */}
         </div>
     )
 }
