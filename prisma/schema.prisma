@@ -8,12 +8,10 @@ datasource db {
 }
 
 model catalogo_declaracion {
-  id_formulario Decimal  @db.Decimal(5, 0)
-  descripcion   String?  @db.VarChar(255)
-  id_empresa    String   @db.Uuid
-  periodo       Decimal? @db.Decimal(2, 0)
-
-  @@id([id_formulario, id_empresa])
+  id_formulario       Decimal               @id @db.Decimal(5, 0)
+  descripcion         String?               @db.VarChar(255)
+  periodo             Decimal?              @db.Decimal(2, 0)
+  empresa_declaracion empresa_declaracion[]
 }
 
 model cliente {
@@ -34,26 +32,23 @@ model cronograma_venci {
 }
 
 model declaracion {
-  id_declaracion    String    @id @db.Uuid
-  formulario        BigInt?
-  f_presentacion    DateTime? @db.Date
-  monto_declarado   Decimal?  @db.Decimal
-  e_declarado       String?   @db.Char(1)
-  com_observado     String?   @db.VarChar(255)
-  f_respuesta       DateTime? @db.Date
-  f_max_declarar    DateTime? @db.Date
-  ind_rectificacion String?   @db.Bit(1)
-  ind_pago          String?   @db.Bit(1)
-  total_deuda       Decimal?  @db.Decimal
-  f_creacion        DateTime? @db.Timestamp(6)
-  nro_orden         String?   @db.Char(10)
-  tipo_declaracion  String?   @db.VarChar(5)
-  f_periodo         String?   @db.Char(6)
-  ind_confirmado    String?   @db.Bit(1)
-  codigo            BigInt
-  id_empresa        String    @db.Uuid
-
-  @@unique([codigo, formulario, id_empresa, f_periodo], map: "idx_declaracion_cod_form_empresa_periodo")
+  id_declaracion     String    @id @db.Uuid
+  f_presentacion     DateTime? @db.Date
+  monto_declarado    Decimal?  @db.Decimal
+  e_declarado        String?   @db.Char(1)
+  com_observado      String?   @db.VarChar(255)
+  f_respuesta        DateTime? @db.Date
+  f_max_declarar     DateTime? @db.Date
+  ind_rectificacion  String?   @db.Bit(1)
+  ind_pago           String?   @db.Bit(1)
+  total_deuda        Decimal?  @db.Decimal
+  f_creacion         DateTime? @db.Timestamp(6)
+  nro_orden          String?   @db.Char(10)
+  tipo_declaracion   String?   @db.VarChar(5)
+  f_periodo          String?   @db.Char(6)
+  ind_confirmado     String?   @db.Bit(1)
+  codigo             BigInt
+  id_declaracion_emp String?   @db.Uuid
 }
 
 model detalle_tributo {
@@ -83,23 +78,25 @@ model empresa {
 }
 
 model empresa_declaracion {
-  id_declaracion_emp  String    @db.Uuid
-  id_empresa          String    @db.Uuid
-  per_rev             String?   @db.Char(1)
-  d_a_venci           Decimal?  @db.Decimal(2, 0)
-  d_d_venci           Decimal?  @db.Decimal(2, 0)
-  d_a_v_rev           Decimal?  @db.Decimal(2, 0)
-  d_d_v_rev           Decimal?  @db.Decimal(2, 0)
-  d_a_v_alerta        Decimal?  @db.Decimal(2, 0)
-  f_creacion          DateTime? @db.Timestamp(6)
-  per_ini_declaracion String?   @db.Char(4)
-  per_fin_declaracion String?   @db.Char(4)
-  codigo              BigInt    @default(autoincrement())
-  ind_notif_apagado   String?   @db.Bit(1)
-  d_a_venci_2         Decimal?  @db.Decimal
-  d_recur_d_venci     Decimal?  @db.Decimal
-  ind_notif_by_chg    String?   @db.Bit(1)
-  empresa             empresa   @relation(fields: [id_empresa], references: [id_empresa], onDelete: Cascade, map: "fk_empresa")
+  id_declaracion_emp   String                @db.Uuid
+  id_empresa           String                @db.Uuid
+  per_rev              String?               @db.Char(1)
+  d_a_venci            Decimal?              @db.Decimal(2, 0)
+  d_d_venci            Decimal?              @db.Decimal(2, 0)
+  d_a_v_rev            Decimal?              @db.Decimal(2, 0)
+  d_d_v_rev            Decimal?              @db.Decimal(2, 0)
+  d_a_v_alerta         Decimal?              @db.Decimal(2, 0)
+  f_creacion           DateTime?             @db.Timestamp(6)
+  per_ini_declaracion  String?               @db.Char(4)
+  per_fin_declaracion  String?               @db.Char(4)
+  codigo               BigInt                @default(autoincrement())
+  ind_notif_apagado    String?               @db.Bit(1)
+  d_a_venci_2          Decimal?              @db.Decimal
+  d_recur_d_venci      Decimal?              @db.Decimal
+  ind_notif_by_chg     String?               @db.Bit(1)
+  id_formulario        Decimal?              @db.Decimal(5, 0)
+  catalogo_declaracion catalogo_declaracion? @relation(fields: [id_formulario], references: [id_formulario], onDelete: Cascade, onUpdate: NoAction, map: "fk_catalogo_declaracion")
+  empresa              empresa               @relation(fields: [id_empresa], references: [id_empresa], onDelete: Cascade, map: "fk_empresa")
 
   @@id([id_declaracion_emp, id_empresa])
 }
