@@ -2,17 +2,24 @@ import TableSearch from "@/components/TableSearch"
 import Pagination from "@/components/Pagination"
 import Image from "next/image"
 import Table from "@/components/Table"
-import { empresa, empresa_declaracion, Prisma } from "@prisma/client"
+import { catalogo_declaracion, empresa, empresa_declaracion, Prisma } from "@prisma/client"
 import prisma from "@/lib/prisma"
 import { ITEM_PER_PAGE } from "@/lib/settings"
 import FormContainer from "@/components/FormContainer"
+import { headers } from "next/headers"
 
-type EmpresaList = empresa_declaracion & {empresa: empresa}
+type EmpresaList = empresa_declaracion & {empresa: empresa} & {catalogo_declaracion: catalogo_declaracion}
 
 const columns = [
     {
         header: "Empresa",
         accessor: "empresa",
+        classname: "wrap-text"
+    },
+    {
+        header: "Nro. de Formulario",
+        accessor : "nroFormulario",
+        classname: "wrap-text hidden md:table-cell"
     },
     {
         header: "P. Inicial",
@@ -62,8 +69,14 @@ const columns = [
 
 const renderRow = (item: EmpresaList) => {
     return(
-        <tr key={item.id_empresa} className="border-b border-gray-200 even:bg-slate-50 text-sm hover:bg-lamaPurpleLite">
+        <tr key={`${item.id_declaracion_emp}${item.id_empresa}`} className="border-b border-gray-200 even:bg-slate-50 text-sm hover:bg-lamaPurpleLite">
             <td className="gap-4 p-4">{item.empresa.razon_social}</td>
+            <td className="hidden md:table-cell">
+                {item.id_formulario 
+                    ? `${item?.id_formulario?.toString()}-${item?.catalogo_declaracion?.descripcion}` 
+                    : ""
+                }
+            </td>
             <td className="hidden md:table-cell">{item.per_ini_declaracion}</td>
             <td className="hidden md:table-cell">{item.per_fin_declaracion}</td>
             <td className="hidden md:table-cell">{item.d_a_venci?.toString()}</td>
@@ -99,7 +112,9 @@ const DeclaracionesListPage = async ({
             if(value !== undefined){
                 switch(key){
                     case "search":
-                        // query?.empresa?.ruc = {contains: value, mode: "insensitive"}
+                        query.empresa = {
+                            razon_social: {contains: value, mode: "insensitive"},
+                        };
                         break;
                     default:
                         break;
@@ -112,7 +127,8 @@ const DeclaracionesListPage = async ({
         prisma.empresa_declaracion.findMany({
             where: query,
             include: {
-                empresa: {select: {razon_social:true}}
+                empresa: {select: { razon_social:true }},
+                catalogo_declaracion: {select: { descripcion: true }},
             },
             take: ITEM_PER_PAGE,
             skip: ITEM_PER_PAGE * (index-1),
@@ -130,7 +146,12 @@ const DeclaracionesListPage = async ({
           d_a_v_alerta: item.d_a_v_alerta ? item.d_a_v_alerta.toNumber() : null,
           d_a_venci_2: item.d_a_venci_2 ? item.d_a_venci_2.toNumber() : null,
           d_recur_d_venci: item.d_recur_d_venci ? item.d_recur_d_venci.toNumber() : null,
+          id_formulario: item.id_formulario ? item.id_formulario.toNumber(): null
         };
+    }).sort((a, b) => {
+        if (a.id_empresa < b.id_empresa) return -1;
+        if (a.id_empresa > b.id_empresa) return 1;
+        return 0;
     });
 
     return (

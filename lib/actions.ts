@@ -3,6 +3,7 @@
 import { randomUUID } from "crypto"
 import {  ClienteSchema, EmpresaDeclaracionSchema, EmpresaSchema } from "./formValidationSchemas"
 import prisma from "./prisma"
+import { Decimal } from "@prisma/client/runtime/library"
 
 type CurrentState = {success:boolean, error:boolean}
 
@@ -172,7 +173,8 @@ export const createDeclaracion = async(
                 d_d_venci: data.d_d_venci,
                 d_a_v_alerta: data.d_a_v_alerta,
                 d_recur_d_venci: data.d_recur_d_venci,
-                ind_notif_apagado: data.ind_notif_apagado ? "1" : "0"
+                ind_notif_apagado: data.ind_notif_apagado ? "1" : "0",
+                id_formulario: parseInt(data.id_formulario)
             }
         })
         return { success: true, error: false };
@@ -188,17 +190,6 @@ export const updateDeclaracion = async(
 ) => {
     try
     {   
-        console.log( {
-            per_ini_declaracion: data.per_ini_declaracion,
-            per_fin_declaracion: data.per_fin_declaracion,
-            d_a_venci: data.d_a_venci,
-            d_a_venci_2: data.d_a_venci_2,
-            d_d_venci: data.d_d_venci,
-            d_a_v_alerta: data.d_a_v_alerta,
-            d_recur_d_venci: data.d_recur_d_venci,
-            ind_notif_apagado: data.ind_notif_apagado ? "1" : "0"
-        });
-
         const id_declaracion_emp = data.id_declaracion_emp || "";
         const id_empresa = data.id_empresa || "";
 
@@ -221,7 +212,8 @@ export const updateDeclaracion = async(
                 d_d_venci: data.d_d_venci,
                 d_a_v_alerta: data.d_a_v_alerta,
                 d_recur_d_venci: data.d_recur_d_venci,
-                ind_notif_apagado: data.ind_notif_apagado ? "1" : "0"
+                ind_notif_apagado: data.ind_notif_apagado ? "1" : "0",
+                id_formulario: parseInt(data.id_formulario)
             }
         });
 
@@ -244,10 +236,6 @@ export const deleteDeclaracion = async(
         
         const idDeclaracionEmp = id.split(",")[0];
         const idEmpresa = id.split(",")[1];
-
-        console.log(id)
-        console.log(idDeclaracionEmp)
-        console.log(idEmpresa)
 
         await prisma.empresa_declaracion.delete({
             where:{

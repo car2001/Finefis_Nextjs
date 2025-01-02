@@ -38,7 +38,6 @@ const EmpresaForm = ({
 
     const onSubmit = handleSubmit(data => {
         startTransition(async () => {
-            console.log(data);
             formAction(data);
         })
     })

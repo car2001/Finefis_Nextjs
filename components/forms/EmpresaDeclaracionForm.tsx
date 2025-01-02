@@ -20,7 +20,6 @@ const EmpresaDeclaracionForm = ({
     setOpen:Dispatch<SetStateAction<boolean>>;
     relatedData?: any;
 }) => {
-    console.log(data)
     const { 
         register, 
         handleSubmit, 
@@ -52,7 +51,7 @@ const EmpresaDeclaracionForm = ({
         }
     }, [state])
 
-    const { empresas } = relatedData;
+    const { empresas, catalogoDeclaraciones } = relatedData;
 
     return(
         <form className="flex flex-col gap-4" onSubmit={onSubmit}>
@@ -88,6 +87,26 @@ const EmpresaDeclaracionForm = ({
                     {errors.id_empresa?.message && (
                         <p className="text-xs text-red-400">
                         {errors.id_empresa.message.toString()}
+                        </p>
+                    )}
+                </div>
+                <div className="flex flex-col gap-2 w-full md:w-1/4">
+                    <label className="text-xs text-gray-500">Nro. de Formulario</label>
+                    <select 
+                        className="ring-[1.5px] ring-gray-300 p-2 rounded-md text-sm w-full"
+                        {...register("id_formulario")}
+                        defaultValue={data?.id_formulario}>
+                        {catalogoDeclaraciones.map(
+                            (catalogoDeclaracion: { id_formulario: string; descripcion: string; }) => (
+                                <option value={catalogoDeclaracion.id_formulario} key={catalogoDeclaracion.descripcion}>
+                                    {catalogoDeclaracion.id_formulario}-{catalogoDeclaracion.descripcion}
+                                </option>
+                            )
+                        )}
+                    </select>
+                    {errors.id_formulario?.message && (
+                        <p className="text-xs text-red-400">
+                        {errors.id_formulario.message.toString()}
                         </p>
                     )}
                 </div>
