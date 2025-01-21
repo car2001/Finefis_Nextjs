@@ -8,7 +8,7 @@ datasource db {
 }
 
 model catalogo_declaracion {
-  id_formulario       Decimal               @id @db.Decimal(5, 0)
+  id_formulario       Int                   @id
   descripcion         String?               @db.VarChar(255)
   periodo             Decimal?              @db.Decimal(2, 0)
   empresa_declaracion empresa_declaracion[]
@@ -47,8 +47,10 @@ model declaracion {
   tipo_declaracion   String?   @db.VarChar(5)
   f_periodo          String?   @db.Char(6)
   ind_confirmado     String?   @db.Bit(1)
-  codigo             BigInt
+  codigo             BigInt?
   id_declaracion_emp String?   @db.Uuid
+
+  @@unique([id_declaracion_emp, f_periodo], map: "idx_id_declaracion_emp")
 }
 
 model detalle_tributo {
@@ -81,20 +83,20 @@ model empresa_declaracion {
   id_declaracion_emp   String                @db.Uuid
   id_empresa           String                @db.Uuid
   per_rev              String?               @db.Char(1)
-  d_a_venci            Decimal?              @db.Decimal(2, 0)
-  d_d_venci            Decimal?              @db.Decimal(2, 0)
-  d_a_v_rev            Decimal?              @db.Decimal(2, 0)
-  d_d_v_rev            Decimal?              @db.Decimal(2, 0)
-  d_a_v_alerta         Decimal?              @db.Decimal(2, 0)
+  d_a_venci            Int?
+  d_d_venci            Int?
+  d_a_v_rev            Int?
+  d_d_v_rev            Int?
+  d_a_v_alerta         Int?
   f_creacion           DateTime?             @db.Timestamp(6)
   per_ini_declaracion  String?               @db.Char(4)
   per_fin_declaracion  String?               @db.Char(4)
   codigo               BigInt                @default(autoincrement())
   ind_notif_apagado    String?               @db.Bit(1)
-  d_a_venci_2          Decimal?              @db.Decimal
-  d_recur_d_venci      Decimal?              @db.Decimal
+  d_a_venci_2          Int?
+  d_recur_d_venci      Int?
   ind_notif_by_chg     String?               @db.Bit(1)
-  id_formulario        Decimal?              @db.Decimal(5, 0)
+  id_formulario        Int?
   catalogo_declaracion catalogo_declaracion? @relation(fields: [id_formulario], references: [id_formulario], onDelete: Cascade, onUpdate: NoAction, map: "fk_catalogo_declaracion")
   empresa              empresa               @relation(fields: [id_empresa], references: [id_empresa], onDelete: Cascade, map: "fk_empresa")
 

@@ -35,7 +35,7 @@ const FormContainer = async ({ table, type, data, id }: FormContainerProps) => {
         const empresaDeclaracionCatlogoSanitized = empresaDeclaracionCatalogo.map((item) => {
           return {
             ...item,
-            id_formulario: item.id_formulario ? item.id_formulario.toNumber(): null
+            id_formulario: item.id_formulario ? item.id_formulario : null
           };
       });
         relatedData = { empresas: empresaDeclaracionEmpresas, catalogoDeclaraciones: empresaDeclaracionCatlogoSanitized };

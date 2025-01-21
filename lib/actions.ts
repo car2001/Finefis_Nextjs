@@ -168,11 +168,11 @@ export const createDeclaracion = async(
                 id_empresa: data.id_empresa,
                 per_ini_declaracion: data.per_ini_declaracion,
                 per_fin_declaracion: data.per_fin_declaracion,
-                d_a_venci: data.d_a_venci,
-                d_a_venci_2: data.d_a_venci_2,
-                d_d_venci: data.d_d_venci,
-                d_a_v_alerta: data.d_a_v_alerta,
-                d_recur_d_venci: data.d_recur_d_venci,
+                d_a_venci: Number.parseInt(data.d_a_venci),
+                d_a_venci_2: Number.parseInt(data.d_a_venci_2),
+                d_d_venci: Number.parseInt(data.d_d_venci),
+                d_a_v_alerta: Number.parseInt(data.d_a_v_alerta),
+                d_recur_d_venci: Number.parseInt(data.d_recur_d_venci),
                 ind_notif_apagado: data.ind_notif_apagado ? "1" : "0",
                 id_formulario: parseInt(data.id_formulario)
             }
@@ -207,11 +207,11 @@ export const updateDeclaracion = async(
             data: {
                 per_ini_declaracion: data.per_ini_declaracion,
                 per_fin_declaracion: data.per_fin_declaracion,
-                d_a_venci: data.d_a_venci,
-                d_a_venci_2: data.d_a_venci_2,
-                d_d_venci: data.d_d_venci,
-                d_a_v_alerta: data.d_a_v_alerta,
-                d_recur_d_venci: data.d_recur_d_venci,
+                d_a_venci: Number.parseInt(data.d_a_venci),
+                d_a_venci_2: Number.parseInt(data.d_a_venci_2),
+                d_d_venci: Number.parseInt(data.d_d_venci),
+                d_a_v_alerta: Number.parseInt(data.d_a_v_alerta),
+                d_recur_d_venci: Number.parseInt(data.d_recur_d_venci),
                 ind_notif_apagado: data.ind_notif_apagado ? "1" : "0",
                 id_formulario: parseInt(data.id_formulario)
             }

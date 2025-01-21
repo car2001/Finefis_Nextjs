@@ -139,14 +139,6 @@ const DeclaracionesListPage = async ({
     const sanitizedData = empresasData.map((item) => {
         return {
           ...item,
-          d_a_venci: item.d_a_venci ? item.d_a_venci.toNumber() : null,
-          d_d_venci: item.d_d_venci ? item.d_d_venci.toNumber() : null,
-          d_a_v_rev: item.d_a_v_rev ? item.d_a_v_rev.toNumber() : null,
-          d_d_v_rev: item.d_d_v_rev ? item.d_d_v_rev.toNumber() : null,
-          d_a_v_alerta: item.d_a_v_alerta ? item.d_a_v_alerta.toNumber() : null,
-          d_a_venci_2: item.d_a_venci_2 ? item.d_a_venci_2.toNumber() : null,
-          d_recur_d_venci: item.d_recur_d_venci ? item.d_recur_d_venci.toNumber() : null,
-          id_formulario: item.id_formulario ? item.id_formulario.toNumber(): null
         };
     }).sort((a, b) => {
         if (a.id_empresa < b.id_empresa) return -1;
