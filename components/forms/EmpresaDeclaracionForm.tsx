@@ -32,7 +32,8 @@ const EmpresaDeclaracionForm = ({
     const [state, formAction] = useActionState(
         type === "create" ? createDeclaracion : updateDeclaracion, {
         success:false, 
-        error: false
+        error: false,
+        message:""
     });
 
     const onSubmit = handleSubmit(data => {

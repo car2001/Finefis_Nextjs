@@ -33,7 +33,8 @@ const ClienteForm = ({
     const [state, formAction] = useActionState(
         type === "create" ? createCliente : updateCliente, {
         success:false, 
-        error: false
+        error: false,
+        message: ""
     });
 
     const onSubmit = handleSubmit(data => {
@@ -85,7 +86,7 @@ const ClienteForm = ({
                     error={errors?.dni} 
                 />
             </div>
-            {state.error && <span className="text-red-500">Ocurrio un error!</span>}
+            {state.error && <span className="text-red-500">{state.message}</span>}
             <button className="bg-blue-400 text-white p-2 rounded-md">
                 {type === "create" ? "Crear": "Actualizar"}
             </button>

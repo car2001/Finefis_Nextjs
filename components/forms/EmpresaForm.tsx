@@ -33,7 +33,8 @@ const EmpresaForm = ({
     const [state, formAction] = useActionState(
         type === "create" ? createEmpresa : updateEmpresa, {
         success:false, 
-        error: false
+        error: false,
+        message: ""
     });
 
     const onSubmit = handleSubmit(data => {
@@ -117,7 +118,7 @@ const EmpresaForm = ({
                         <option value="">Seleccione un cliente</option>
                         {clientes.map(
                             (cliente: { id_cliente: string; nombre: string; }) => (
-                                <option value={cliente.id_cliente} key={cliente.nombre}>
+                                <option value={cliente.id_cliente} key={cliente.id_cliente}>
                                     {cliente.nombre}
                                 </option>
                             )
@@ -130,7 +131,7 @@ const EmpresaForm = ({
                     )}
                 </div>
             </div>
-            {state.error && <span className="text-red-500">Ocurrio un error!</span>}
+            {state.error && <span className="text-red-500">{state.message}</span>}
             <button className="bg-blue-400 text-white p-2 rounded-md">
                 {type === "create" ? "Crear": "Actualizar"}
             </button>

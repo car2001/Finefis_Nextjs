@@ -5,7 +5,7 @@ import {  ClienteSchema, EmpresaDeclaracionSchema, EmpresaSchema } from "./formV
 import prisma from "./prisma"
 import { Decimal } from "@prisma/client/runtime/library"
 
-type CurrentState = {success:boolean, error:boolean}
+type CurrentState = {success:boolean, error:boolean, message:string}
 
 // Empresa
 export const createEmpresa = async(
@@ -14,6 +14,17 @@ export const createEmpresa = async(
 ) => {
     try
     {
+
+        const empresaExistente = await prisma.empresa.findFirst ({
+            where: {
+                ruc: data.ruc,
+            },
+        });
+
+        if (empresaExistente) {
+            return { success: false, error: true, message: 'Ya existe una empresa con este RUC.' };
+        }
+
         await prisma.empresa.create({
             data: {
                 id_empresa: randomUUID(),
@@ -27,12 +38,12 @@ export const createEmpresa = async(
         });
 
         // revalidatePath("/list/empresas");
-        return {success:true, error:false}
+        return {success:true, error:false, message:""}
     }
     catch(error)
     {
         console.log(error)
-        return {success:false, error:true}
+        return {success:false, error:true, message:"Ocurrio un error"}
     }
 }
 
@@ -55,12 +66,12 @@ export const updateEmpresa = async(
             }
         });
 
-        return {success:true, error:false}
+        return {success:true, error:false, message: ""}
     }
     catch(error)
     {
         console.log(error)
-        return {success:false, error:true}
+        return {success:false, error:true, message: ""}
     }
 }
 
@@ -77,12 +88,12 @@ export const deleteEmpresa = async(
             },
         });
 
-        return {success:true, error:false}
+        return {success:true, error:false, message: ""}
     }
     catch(error)
     {
         console.log(error)
-        return {success:false, error:true}
+        return {success:false, error:true, message: ""}
     }
 }
 
@@ -101,10 +112,10 @@ export const createCliente = async(
             }
         })
 
-        return { success: true, error: false };
+        return { success: true, error: false, message: "" };
     } catch (error) {
         console.log(error);
-        return { success: false, error: true };
+        return { success: false, error: true, message: "" };
     }
 };
 
@@ -124,12 +135,12 @@ export const updateCliente = async(
             }
         });
 
-        return {success:true, error:false}
+        return {success:true, error:false, message: ""}
     }
     catch(error)
     {
         console.log(error)
-        return {success:false, error:true}
+        return {success:false, error:true, message: ""}
     }
 }
 
@@ -146,12 +157,12 @@ export const deleteCliente = async(
             },
         });
 
-        return {success:true, error:false}
+        return {success:true, error:false, message: ""}
     }
     catch(error)
     {
         console.log(error)
-        return {success:false, error:true}
+        return {success:false, error:true, message: ""}
     }
 }
 
@@ -162,6 +173,7 @@ export const createDeclaracion = async(
     data: EmpresaDeclaracionSchema
 ) => {
     try {
+
         await prisma.empresa_declaracion.create({
             data:{
                 id_declaracion_emp: randomUUID(),
@@ -177,10 +189,10 @@ export const createDeclaracion = async(
                 id_formulario: parseInt(data.id_formulario)
             }
         })
-        return { success: true, error: false };
+        return { success: true, error: false, message:"" };
     } catch (error) {
         console.log(error);
-        return { success: false, error: true };
+        return { success: false, error: true, message:"" };
     }
 };
 
@@ -217,12 +229,12 @@ export const updateDeclaracion = async(
             }
         });
 
-        return {success:true, error:false}
+        return {success:true, error:false, message:""}
     }
     catch(error)
     {
         console.log(error)
-        return {success:false, error:true}
+        return {success:false, error:true, message:""}
     }
 }
 
@@ -246,11 +258,11 @@ export const deleteDeclaracion = async(
             },
         });
 
-        return {success:true, error:false}
+        return {success:true, error:false, message:""}
     }
     catch(error)
     {
         console.log(error)
-        return {success:false, error:true}
+        return {success:false, error:true, message:""}
     }
 }
