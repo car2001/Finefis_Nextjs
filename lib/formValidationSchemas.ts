@@ -52,11 +52,11 @@ export const empresaDeclaracionSchema = z.object({
     id_declaracion_emp:z.string().optional(),
     id_empresa: z.string().min(1, {message: "Empresa es obligatorio!"}),
     per_ini_declaracion: z.string()
-        .min(4, {message: "Periodo Inicial es obligatorio!"})
+        .min(4, {message: "Periodo Inicial debe tener el formato MMYY"})
         .max(4, {message: "Periodo Inicial debe tener max 4 dígitos!"})
         .regex(/^\d+$/, "Periodo Inicial debe contener solo números"),
     per_fin_declaracion: z.string()
-        .min(4, {message: "Periodo Final es obligatorio!"})
+        .min(4, {message: "Periodo Final debe tener el formato MMYY"})
         .max(4, {message: "Periodo Final debe tener max 4 dígitos!"})
         .regex(/^\d+$/, "Periodo Final debe contener solo números"),
     d_a_venci: z.string()
