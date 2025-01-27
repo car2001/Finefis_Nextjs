@@ -57,7 +57,7 @@ const columns = [
         classname: "wrap-text hidden md:table-cell",
     },
     {
-        header: "Notif. Cambios",
+        header: "Notif. Apagado",
         accessor: "indicadorNotiVencCambios", 
         classname: "wrap-text hidden md:table-cell",
     },
@@ -84,7 +84,7 @@ const renderRow = (item: EmpresaList) => {
             <td className="hidden md:table-cell">{item.d_d_venci?.toString()}</td>
             <td className="hidden md:table-cell">{item.d_a_v_alerta?.toString()}</td>
             <td className="hidden md:table-cell">{item.d_recur_d_venci?.toString()}</td>
-            <td className="hidden md:table-cell">{item.ind_notif_by_chg}</td>
+            <td className="hidden md:table-cell">{item.ind_notif_apagado}</td>
             <td>
                 <div className="flex items-center gap-2">
                     <FormContainer type="update" table="empresa_declaracion" id={`${item.id_declaracion_emp},${item.id_empresa}`} data={item} />
