@@ -7,6 +7,7 @@ import { cliente, empresa, Prisma } from "@prisma/client"
 import prisma from "@/lib/prisma"
 import { ITEM_PER_PAGE } from "@/lib/settings"
 import FormContainer from "@/components/FormContainer"
+import Encrypt from "@/lib/encrypt"
 
 type EmpresaList = empresa & {cliente: cliente}
 
@@ -52,13 +53,22 @@ const columns = [
 ]
 
 const renderRow = (item: EmpresaList) => {
+
+    const maskKey = (key: string | null | undefined, maskChar: string = '*'): string => {
+        if (key && typeof key === 'string' && key.length > 0) {
+            const decryptClave = Encrypt.decrypt(key);
+            return maskChar.repeat(decryptClave.length);
+        }
+        return '';
+    };
+
     return(
         <tr key={item.id_empresa} className="border-b border-gray-200 even:bg-slate-50 text-sm hover:bg-lamaPurpleLite">
             <td className="flex items-center gap-4 p-4">{item.ruc}</td>
             <td className="hidden md:table-cell">{item.razon_social}</td>
             <td className="hidden md:table-cell">{item.cliente?.nombre}</td>
             <td className="hidden md:table-cell">{item.usuario}</td>
-            <td className="hidden md:table-cell">{item.clave}</td>
+            <td className="hidden md:table-cell">{maskKey(item.clave)}</td>
             <td className="hidden md:table-cell">{item.email}</td>
             <td className="hidden md:table-cell">
                 {item?.inactivo === "1" 

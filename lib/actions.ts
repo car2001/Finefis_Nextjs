@@ -3,7 +3,7 @@
 import { randomUUID } from "crypto"
 import {  ClienteSchema, EmpresaDeclaracionSchema, EmpresaSchema } from "./formValidationSchemas"
 import prisma from "./prisma"
-import { Decimal } from "@prisma/client/runtime/library"
+import Encrypt from "./encrypt"
 
 type CurrentState = {success:boolean, error:boolean, message:string}
 
@@ -14,7 +14,6 @@ export const createEmpresa = async(
 ) => {
     try
     {
-
         const empresaExistente = await prisma.empresa.findFirst ({
             where: {
                 ruc: data.ruc,
@@ -25,15 +24,18 @@ export const createEmpresa = async(
             return { success: false, error: true, message: 'Ya existe una empresa con este RUC.' };
         }
 
+        const encryptClave = Encrypt.encrypt(data.clave);
+
         await prisma.empresa.create({
             data: {
                 id_empresa: randomUUID(),
                 ruc: data.ruc,
                 razon_social: data.razon_social,
                 usuario: data.usuario,
-                clave: data.clave,
+                clave: encryptClave,
                 email: data.email,
-                id_cliente: parseInt(data.id_cliente)
+                id_cliente: parseInt(data.id_cliente),
+                inactivo: data.inactivo ? "1" : "0"
             }
         });
 
@@ -66,6 +68,8 @@ export const updateEmpresa = async(
             return { success: false, error: true, message: 'Ya existe una empresa con este RUC.' };
         }
 
+        const encryptClave = Encrypt.encrypt(data.clave);
+
         await prisma.empresa.update({
             where:{
                 id_empresa: data.id_empresa
@@ -74,8 +78,9 @@ export const updateEmpresa = async(
                 ruc: data.ruc,
                 razon_social: data.razon_social,
                 usuario: data.usuario,
-                clave: data.clave,
-                email: data.email
+                clave: encryptClave,
+                email: data.email,
+                inactivo: data.inactivo ? "1" : "0"
             }
         });
 
@@ -213,7 +218,6 @@ export const createDeclaracion = async(
     data: EmpresaDeclaracionSchema
 ) => {
     try {
-        console.log("empresa declaracion")
         await prisma.empresa_declaracion.create({
             data:{
                 id_declaracion_emp: randomUUID(),

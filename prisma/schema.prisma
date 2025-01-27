@@ -74,7 +74,7 @@ model empresa {
   razon_social        String?               @db.VarChar(255)
   id_cliente          Int?
   usuario             String?               @db.VarChar(20)
-  clave               String?               @db.VarChar(50)
+  clave               String?
   inactivo            String?               @db.Bit(1)
   bloqueado           String?               @db.Bit(1)
   email               String?               @db.VarChar(255)

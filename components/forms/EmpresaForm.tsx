@@ -9,6 +9,7 @@ import { Dispatch, SetStateAction, useActionState, useEffect, useTransition } fr
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import CheckBoxField from "../CheckBoxField";
+import Encrypt from "@/lib/encrypt";
 
 const EmpresaForm = ({
     type, 
@@ -98,7 +99,11 @@ const EmpresaForm = ({
                     type="password" 
                     name="clave" 
                     label="Clave"
-                    defaultValue={data?.clave}
+                    defaultValue={
+                        data?.clave 
+                        ? Encrypt.decrypt(data?.clave)
+                        : data?.clave
+                    }
                     register={register} 
                     error={errors.clave} 
                 />
@@ -135,7 +140,7 @@ const EmpresaForm = ({
             <CheckBoxField
                 name="inactivo"
                 label="¿Está inactivo?"
-                defaultValue={data.inactivo === "1"}
+                defaultValue={data?.inactivo === "1"}
                 register={register}
                 error={errors?.inactivo}
             />
