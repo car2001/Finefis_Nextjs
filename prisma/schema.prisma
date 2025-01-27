@@ -15,13 +15,16 @@ model catalogo_declaracion {
 }
 
 model cliente {
-  id_cliente  Int       @id(map: "c_cliente_pkey") @default(autoincrement())
-  nombre      String?   @db.VarChar
-  tenant_guid BigInt?
-  tipo_plan   String?   @db.VarChar
-  cliente_key String?   @db.VarChar
-  dni         String?   @db.VarChar
-  empresa     empresa[]
+  id_cliente    Int       @id(map: "c_cliente_pkey") @default(autoincrement())
+  nombre        String?   @db.VarChar
+  tenant_guid   BigInt?
+  tipo_plan     String?   @db.VarChar
+  cliente_key   String?   @db.VarChar
+  dni           String?   @db.VarChar
+  email         String?   @db.VarChar(255)
+  num_cel       String?   @db.Char(12)
+  ind_actividad String?   @db.Bit(1)
+  empresa       empresa[]
 }
 
 model cronograma_venci {

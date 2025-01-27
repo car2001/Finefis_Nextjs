@@ -29,7 +29,8 @@ export const empresaSchema = z.object({
     usuario: z.string().min(1, {message: "Usuario es obligatorio!"}),
     clave: z.string().min(1, {message: "Clave es obligatorio!"}),
     email: z.string().email({message: "Email inválido!"}),
-    id_cliente: z.string().min(1, {message: "Cliente es obligatorio"})
+    id_cliente: z.string().min(1, {message: "Cliente es obligatorio"}),
+    inactivo: z.boolean().optional(),
 });
 
 export type EmpresaSchema = z.infer<typeof empresaSchema>;
@@ -37,7 +38,12 @@ export type EmpresaSchema = z.infer<typeof empresaSchema>;
 export const clienteSchema = z.object({
     id_cliente:z.coerce.number().optional(),
     nombre: z.string().min(1, {message: "Nombre es obligatorio!"}),
-    dni: z.string().min(1, {message: "DNI es obligatorio!"}),
+    // dni: z.string().min(1, {message: "DNI es obligatorio!"}),
+    email: z.string().email({message: "Email inválido!"}),
+    num_cel: z.string()
+        .min(9, {message: "Nro Celular es obligatorio"})
+        .max(12, {message: "Nro Celular debe tener máximo 12 dígitos!"}),
+    ind_actividad: z.boolean().optional(),
 });
 
 export type ClienteSchema = z.infer<typeof clienteSchema>;

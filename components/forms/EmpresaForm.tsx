@@ -8,6 +8,7 @@ import { empresaSchema, EmpresaSchema } from "@/lib/formValidationSchemas";
 import { Dispatch, SetStateAction, useActionState, useEffect, useTransition } from "react";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
+import CheckBoxField from "../CheckBoxField";
 
 const EmpresaForm = ({
     type, 
@@ -131,6 +132,13 @@ const EmpresaForm = ({
                     )}
                 </div>
             </div>
+            <CheckBoxField
+                name="inactivo"
+                label="¿Está inactivo?"
+                defaultValue={data.inactivo === "1"}
+                register={register}
+                error={errors?.inactivo}
+            />
             {state.error && <span className="text-red-500">{state.message}</span>}
             <button className="bg-blue-400 text-white p-2 rounded-md">
                 {type === "create" ? "Crear": "Actualizar"}

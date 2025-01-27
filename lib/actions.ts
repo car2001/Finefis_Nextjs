@@ -53,6 +53,19 @@ export const updateEmpresa = async(
 ) => {
     try
     {
+        const empresaExistente = await prisma.empresa.findFirst ({
+            where: {
+                ruc: data.ruc,
+                id_empresa: {
+                    not: data.id_empresa
+                }
+            },
+        });
+
+        if (empresaExistente) {
+            return { success: false, error: true, message: 'Ya existe una empresa con este RUC.' };
+        }
+
         await prisma.empresa.update({
             where:{
                 id_empresa: data.id_empresa
@@ -105,10 +118,22 @@ export const createCliente = async(
 ) => {
     try {
 
+        const clienteExistente = await prisma.cliente.findFirst ({
+            where: {
+                nombre: data.nombre,
+            },
+        });
+
+        if (clienteExistente) {
+            return { success: false, error: true, message: 'Ya existe un cliente con este nombre.' };
+        }
+
         await prisma.cliente.create({
             data: {
                 nombre: data.nombre,
-                dni: data.dni
+                num_cel: data.num_cel,
+                email: data.email,
+                ind_actividad: data.ind_actividad ? "1" : "0"
             }
         })
 
@@ -125,13 +150,28 @@ export const updateCliente = async(
 ) => {
     try
     {
+        const clienteExistente = await prisma.cliente.findFirst({
+            where: {
+                nombre: data.nombre,
+                id_cliente: {
+                    not: data.id_cliente,
+                },
+            },
+        });
+
+        if (clienteExistente) {
+            return { success: false, error: true, message: 'Ya existe un cliente con este nombre.' };
+        }
+
         await prisma.cliente.update({
             where:{
                 id_cliente: data.id_cliente
             },
             data: {
                 nombre: data.nombre,
-                dni: data.dni
+                num_cel: data.num_cel,
+                email: data.email,
+                ind_actividad: data.ind_actividad ? "1" : "0"
             }
         });
 
@@ -173,7 +213,7 @@ export const createDeclaracion = async(
     data: EmpresaDeclaracionSchema
 ) => {
     try {
-
+        console.log("empresa declaracion")
         await prisma.empresa_declaracion.create({
             data:{
                 id_declaracion_emp: randomUUID(),

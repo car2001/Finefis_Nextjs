@@ -8,6 +8,7 @@ import { empresaDeclaracionSchema, EmpresaDeclaracionSchema } from "@/lib/formVa
 import { Dispatch, SetStateAction, useActionState, useEffect, useTransition } from "react";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
+import CheckBoxField from "../CheckBoxField";
 
 const EmpresaDeclaracionForm = ({
     type, 
@@ -170,7 +171,14 @@ const EmpresaDeclaracionForm = ({
                     error={errors?.d_recur_d_venci}
                     inputProps={{ min: 1, step: 1 }}
                 />
-                <div className="flex flex-col gap-2 w-full md:w-1/4">
+                <CheckBoxField 
+                    name="ind_notif_apagado"
+                    label= "Notificación Apagado"
+                    defaultValue={data?.ind_notif_apagado  === "1"}
+                    register={register}
+                    error={errors?.ind_notif_apagado}
+                />
+                {/* <div className="flex flex-col gap-2 w-full md:w-1/4">
                     <label className="text-xs text-gray-500">Notificación Apagado</label>
                     <input
                     type="checkbox"
@@ -183,7 +191,7 @@ const EmpresaDeclaracionForm = ({
                             {errors.ind_notif_apagado.message.toString()}
                         </p>
                     )}
-                </div>
+                </div> */}
             </div>
             {state.error && <span className="text-red-500">Ocurrio un error!</span>}
             <button className="bg-blue-400 text-white p-2 rounded-md">

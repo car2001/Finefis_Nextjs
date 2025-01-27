@@ -41,6 +41,11 @@ const columns = [
         classname:"hidden lg:table-cell",
     },
     {
+        header: "Activo",
+        accessor:"inactivo", 
+        classname:"hidden lg:table-cell",
+    },
+    {
         header: "Acciones",
         accessor:"actions",
     }
@@ -55,6 +60,12 @@ const renderRow = (item: EmpresaList) => {
             <td className="hidden md:table-cell">{item.usuario}</td>
             <td className="hidden md:table-cell">{item.clave}</td>
             <td className="hidden md:table-cell">{item.email}</td>
+            <td className="hidden md:table-cell">
+                {item?.inactivo === "1" 
+                    ? ( <span className="text-red-500 text-lg font-bold">✖</span> )
+                    : ( <span className="text-green-400 text-xl">✔</span> ) 
+                }
+            </td>
             <td>
                 <div className="flex items-center gap-2">
                     <FormContainer type="update" table="empresa" id={item.id_empresa} data={item} />

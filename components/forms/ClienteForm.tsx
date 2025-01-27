@@ -8,6 +8,7 @@ import { clienteSchema, ClienteSchema } from "@/lib/formValidationSchemas";
 import { Dispatch, SetStateAction, useActionState, useEffect, useTransition } from "react";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
+import CheckBoxField from "../CheckBoxField";
 
 const ClienteForm = ({
     type, 
@@ -78,12 +79,33 @@ const ClienteForm = ({
                     register={register} 
                     error={errors.nombre}
                 />
-                <InputField 
+                {/* <InputField 
                     name="dni" 
                     label="Dni"
                     defaultValue={data?.dni}
                     register={register} 
                     error={errors?.dni} 
+                /> */}
+                <InputField
+                    name="email"
+                    label="Email"
+                    defaultValue={data?.email}
+                    register={register}
+                    error={errors?.email}
+                />
+                <InputField
+                    name="num_cel"
+                    label="Nro Celular"
+                    defaultValue={data?.num_cel}
+                    register={register}
+                    error={errors?.num_cel}
+                />
+                <CheckBoxField 
+                    name="ind_actividad"
+                    label= "¿Está activo?"
+                    defaultValue={data?.ind_actividad  === "1"}
+                    register={register}
+                    error={errors?.ind_actividad}
                 />
             </div>
             {state.error && <span className="text-red-500">{state.message}</span>}

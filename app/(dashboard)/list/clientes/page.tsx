@@ -7,22 +7,39 @@ import { cliente, Prisma } from "@prisma/client"
 import prisma from "@/lib/prisma"
 import { ITEM_PER_PAGE } from "@/lib/settings"
 import FormContainer from "@/components/FormContainer"
+import { it } from "node:test"
 
 type ClientesList = cliente
 
 const columns = [
     {
         header: "Nombre",
-        accessor:"nombre", 
+        accessor:"nombre",
+        classname:"w-fit" 
     },
+    // {
+    //     header: "Tipo Plan",
+    //     accessor:"tipoPlan", 
+    //     classname:"hidden md:table-cell",
+    // },
+    // {
+    //     header: "DNI",
+    //     accessor:"dni", 
+    //     classname:"hidden md:table-cell",
+    // },
     {
-        header: "Tipo Plan",
-        accessor:"tipoPlan", 
+        header: "Email",
+        accessor:"email", 
         classname:"hidden md:table-cell",
     },
     {
-        header: "DNI",
-        accessor:"dni", 
+        header: "Nro Celular",
+        accessor:"num_cel", 
+        classname:"hidden md:table-cell",
+    },
+    {
+        header: "Activo",
+        accessor:"activo_cliente", 
         classname:"hidden md:table-cell",
     },
     {
@@ -34,9 +51,17 @@ const columns = [
 const renderRow = (item: ClientesList) => {
     return(
         <tr key={item.id_cliente} className="border-b border-gray-200 even:bg-slate-50 text-sm hover:bg-lamaPurpleLite">
-            <td className="flex items-center gap-4 p-4">{item.nombre}</td>
-            <td className="hidden md:table-cell">{item.tipo_plan}</td>
-            <td className="hidden md:table-cell">{item.dni?.toString() || "" }</td>
+            <td className="flex items-center py-4 w-fit">{item.nombre}</td>
+            {/* <td className="hidden md:table-cell">{item.tipo_plan}</td> */}
+            {/* <td className="hidden md:table-cell">{item.dni?.toString() || "" }</td> */}
+            <td className="hidden md:table-cell">{item.email?.toString() || "" }</td>
+            <td className="hidden md:table-cell">{item.num_cel?.toString() || "" }</td>
+            <td className="hidden md:table-cell">
+                {item?.ind_actividad === "1" 
+                    ? ( <span className="text-green-400 text-xl">✔</span> ) 
+                    : ( <span className="text-red-500 text-lg font-bold">✖</span> )
+                }
+            </td>
             <td>
                 <div className="flex items-center gap-2">
                     <FormContainer type="update" table="cliente" id={item.id_cliente} data={item} />
