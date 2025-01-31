@@ -17,6 +17,10 @@ const columns = [
         accessor:"ruc", 
     },
     {
+        header: "Nombre de Empresa",
+        accessor:"nombre_empresa",
+    },
+    {
         header: "Razon Social",
         accessor:"razonSocial", 
         classname:"hidden md:table-cell",
@@ -65,6 +69,7 @@ const renderRow = (item: EmpresaList) => {
     return(
         <tr key={item.id_empresa} className="border-b border-gray-200 even:bg-slate-50 text-sm hover:bg-lamaPurpleLite">
             <td className="flex items-center gap-4 p-4">{item.ruc}</td>
+            <td className="hidden md:table-cell">{item.nombre}</td>
             <td className="hidden md:table-cell">{item.razon_social}</td>
             <td className="hidden md:table-cell">{item.cliente?.nombre}</td>
             <td className="hidden md:table-cell">{item.usuario}</td>

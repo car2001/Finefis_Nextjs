@@ -25,6 +25,7 @@ export const empresaSchema = z.object({
         .min(1,{message: "El RUC debe tener al menos un dígito"})
         .max(11, {message: "El RUC no puede tener más de 11 dígitos"})
         .regex(/^\d+$/, "El Ruc debe contener solo números"),
+    nombre: z.string().min(1, {message: "Nombre de Empresa es obligatorio!"}),
     razon_social: z.string().min(1, {message: "Razón social es obligatorio!"}),
     usuario: z.string().min(1, {message: "Usuario es obligatorio!"}),
     clave: z.string().min(1, {message: "Clave es obligatorio!"}),

@@ -82,6 +82,13 @@ const EmpresaForm = ({
                     error={errors.ruc} 
                 />
                 <InputField 
+                    name="nombre" 
+                    label="Nombre de Empresa"
+                    defaultValue={data?.nombre}
+                    register={register} 
+                    error={errors?.nombre} 
+                />
+                <InputField 
                     name="razon_social" 
                     label="Razón Social"
                     defaultValue={data?.razon_social}

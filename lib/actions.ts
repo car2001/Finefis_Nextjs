@@ -40,6 +40,7 @@ export const createEmpresa = async(
             data: {
                 id_empresa: randomUUID(),
                 ruc: data.ruc,
+                nombre: data.nombre,
                 razon_social: data.razon_social,
                 usuario: data.usuario,
                 clave: encryptClave,
@@ -86,6 +87,7 @@ export const updateEmpresa = async(
             },
             data: {
                 ruc: data.ruc,
+                nombre: data.nombre,
                 razon_social: data.razon_social,
                 usuario: data.usuario,
                 clave: encryptClave,

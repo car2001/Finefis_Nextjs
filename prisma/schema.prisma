@@ -78,6 +78,7 @@ model empresa {
   inactivo            String?               @db.Bit(1)
   bloqueado           String?               @db.Bit(1)
   email               String?               @db.VarChar(255)
+  nombre              String?               @db.VarChar(255)
   cliente             cliente?              @relation(fields: [id_cliente], references: [id_cliente], onDelete: NoAction, onUpdate: NoAction, map: "fk_empresa_cliente")
   empresa_declaracion empresa_declaracion[]
 }
