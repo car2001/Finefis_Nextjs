@@ -14,15 +14,25 @@ export const createEmpresa = async(
 ) => {
     try
     {
-        const empresaExistente = await prisma.empresa.findFirst ({
+        const existingEmpresa = await prisma.empresa.findFirst({
             where: {
-                ruc: data.ruc,
+                OR: [
+                    { ruc: data.ruc },
+                    { razon_social: data.razon_social },
+                ]
             },
+            select: { ruc: true, razon_social: true }
         });
-
-        if (empresaExistente) {
+    
+        if (existingEmpresa) {
+            if (existingEmpresa.ruc === data.ruc) {
             return { success: false, error: true, message: 'Ya existe una empresa con este RUC.' };
+            }
+            if (existingEmpresa.razon_social === data.razon_social) {
+            return { success: false, error: true, message: 'Ya existe una empresa con esta Razón Social.' };
+            }
         }
+  
 
         const encryptClave = Encrypt.encrypt(data.clave);
 
@@ -230,7 +240,8 @@ export const createDeclaracion = async(
                 d_a_v_alerta: Number.parseInt(data.d_a_v_alerta),
                 d_recur_d_venci: Number.parseInt(data.d_recur_d_venci),
                 ind_notif_apagado: data.ind_notif_apagado ? "1" : "0",
-                id_formulario: parseInt(data.id_formulario)
+                id_formulario: parseInt(data.id_formulario),
+                ind_notif_by_chg: data.ind_notif_by_chg ? "1" : "0"
             }
         })
         return { success: true, error: false, message:"" };
@@ -269,7 +280,8 @@ export const updateDeclaracion = async(
                 d_a_v_alerta: Number.parseInt(data.d_a_v_alerta),
                 d_recur_d_venci: Number.parseInt(data.d_recur_d_venci),
                 ind_notif_apagado: data.ind_notif_apagado ? "1" : "0",
-                id_formulario: parseInt(data.id_formulario)
+                id_formulario: parseInt(data.id_formulario),
+                ind_notif_by_chg: data.ind_notif_by_chg ? "1" : "0"
             }
         });
 

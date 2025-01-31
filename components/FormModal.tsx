@@ -38,7 +38,7 @@ const forms: {
     teacher: (setOpen,type, data, relatedData) => <TeacherForm type={type} data={data} setOpen={setOpen} relatedData={relatedData} />,
     empresa: (setOpen,type, data, relatedData) => <EmpresaForm type={type} data={data} setOpen={setOpen} relatedData={relatedData} />,
     cliente: (setOpen,type, data, relatedData) => <ClienteForm type={type} data={data} setOpen={setOpen} relatedData={relatedData} />,
-    empresa_declaracion: (setOpen,type, data, relatedData) => <EmpresaDeclaracionForm type={type} data={data} setOpen={setOpen} relatedData={relatedData} />
+    declaraciones: (setOpen,type, data, relatedData) => <EmpresaDeclaracionForm type={type} data={data} setOpen={setOpen} relatedData={relatedData} />
 };
 
 const FormModal = ({
@@ -78,8 +78,8 @@ const FormModal = ({
         (
             <form action={formAction} className="p-4 flex flex-col gap-4">
                 <input type="text | number " name="id" defaultValue={id ? id.toString() : ""} hidden />
-                <span className="text-center font-medium">All data will be lost. Are you sure you want to delete this {table}?</span>
-                <button className="bg-red-700 text-white py-2 px-4 rounded-md border-none w-max self-center">Delete</button>
+                <span className="text-center font-medium">Se perderán todos los datos. ¿Está seguro de que desea eliminar  este registro de la tabla {table}?</span>
+                <button className="bg-red-700 text-white py-2 px-4 rounded-md border-none w-max self-center">Eliminar</button>
             </form>
         ) : type === "create" ||  type === "update" ?
         (

@@ -6,7 +6,7 @@ export type FormContainerProps = {
     | "teacher"
     | "empresa"
     | "cliente"
-    | "empresa_declaracion";
+    | "declaraciones";
   type: "create" | "update" | "delete";
   data?: any;
   id?: number | string | bigint;
@@ -23,7 +23,7 @@ const FormContainer = async ({ table, type, data, id }: FormContainerProps) => {
         });
         relatedData = { clientes: empresaClientes };
         break;
-      case "empresa_declaracion":
+      case "declaraciones":
         const [empresaDeclaracionEmpresas, empresaDeclaracionCatalogo] = await prisma.$transaction([
           prisma.empresa.findMany({
             select: { id_empresa: true, razon_social: true, ruc: true },

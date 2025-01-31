@@ -179,20 +179,13 @@ const EmpresaDeclaracionForm = ({
                     register={register}
                     error={errors?.ind_notif_apagado}
                 />
-                {/* <div className="flex flex-col gap-2 w-full md:w-1/4">
-                    <label className="text-xs text-gray-500">Notificación Apagado</label>
-                    <input
-                    type="checkbox"
-                    {...register("ind_notif_apagado")}
-                    // defaultValue={data?.ind_notif_apagado === 1}
-                    defaultChecked={data?.ind_notif_apagado === "1"} // Si el valor es 1, se marca el checkbox
-                    />
-                    {errors.ind_notif_apagado?.message && (
-                        <p className="text-xs text-red-400">
-                            {errors.ind_notif_apagado.message.toString()}
-                        </p>
-                    )}
-                </div> */}
+                <CheckBoxField 
+                    name="ind_notif_by_chg"
+                    label= "Ind. Notificación Vencimiento Cambios"
+                    defaultValue={data?.ind_notif_by_chg  === "1"}
+                    register={register}
+                    error={errors?.ind_notif_by_chg}
+                />
             </div>
             {state.error && <span className="text-red-500">Ocurrio un error!</span>}
             <button className="bg-blue-400 text-white p-2 rounded-md">

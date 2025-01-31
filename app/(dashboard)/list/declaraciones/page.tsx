@@ -58,7 +58,12 @@ const columns = [
     },
     {
         header: "Notif. Apagado",
-        accessor: "indicadorNotiVencCambios", 
+        accessor: "indicadorNotiApagado", 
+        classname: "wrap-text hidden md:table-cell",
+    },
+    {
+        header: "Ind. Notificación Vencimiento Cambios",
+        accessor: "indicadorNotiVencCambios",
         classname: "wrap-text hidden md:table-cell",
     },
     {
@@ -85,10 +90,11 @@ const renderRow = (item: EmpresaList) => {
             <td className="hidden md:table-cell">{item.d_a_v_alerta?.toString()}</td>
             <td className="hidden md:table-cell">{item.d_recur_d_venci?.toString()}</td>
             <td className="hidden md:table-cell">{item.ind_notif_apagado}</td>
+            <td className="hidden md:table-cell">{item.ind_notif_by_chg}</td>
             <td>
                 <div className="flex items-center gap-2">
-                    <FormContainer type="update" table="empresa_declaracion" id={`${item.id_declaracion_emp},${item.id_empresa}`} data={item} />
-                    <FormContainer type="delete" table="empresa_declaracion" id={`${item.id_declaracion_emp},${item.id_empresa}`}/>
+                    <FormContainer type="update" table="declaraciones" id={`${item.id_declaracion_emp},${item.id_empresa}`} data={item} />
+                    <FormContainer type="delete" table="declaraciones" id={`${item.id_declaracion_emp},${item.id_empresa}`}/>
                 </div>
             </td>
         </tr>
@@ -161,7 +167,7 @@ const DeclaracionesListPage = async ({
                         <button className="w-8 h-8 flex items-center justify-center rounded-full bg-lamaYellow">
                             <Image src="/sort.png" alt="" width={14} height={14} />
                         </button>
-                        <FormContainer type="create" table="empresa_declaracion"/>
+                        <FormContainer type="create" table="declaraciones"/>
                     </div>
                 </div>
             </div>     

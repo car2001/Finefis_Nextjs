@@ -75,7 +75,8 @@ export const empresaDeclaracionSchema = z.object({
         .min(1, {message: "Dias de Frecuencia Revision obligatorio!"})
         .regex(/^\d+$/, "Dias de Frecuencia Revision debe contener solo números"),
     ind_notif_apagado: z.boolean().optional(),
-    id_formulario: z.string().min(1, {message: "El Nro. de Formulario es obligatorio"})
+    id_formulario: z.string().min(1, {message: "El Nro. de Formulario es obligatorio"}),
+    ind_notif_by_chg: z.boolean().optional(),
 });
 
 export type EmpresaDeclaracionSchema = z.infer<typeof empresaDeclaracionSchema>;
