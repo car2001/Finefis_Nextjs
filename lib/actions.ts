@@ -18,7 +18,7 @@ export const createEmpresa = async(
             where: {
                 OR: [
                     { ruc: data.ruc },
-                    { razon_social: data.razon_social },
+                    { razon_social: data.razon_social.trim() },
                 ]
             },
             select: { ruc: true, razon_social: true }
@@ -28,7 +28,7 @@ export const createEmpresa = async(
             if (existingEmpresa.ruc === data.ruc) {
             return { success: false, error: true, message: 'Ya existe una empresa con este RUC.' };
             }
-            if (existingEmpresa.razon_social === data.razon_social) {
+            if (existingEmpresa.razon_social === data.razon_social.trim()) {
             return { success: false, error: true, message: 'Ya existe una empresa con esta Razón Social.' };
             }
         }
@@ -66,17 +66,27 @@ export const updateEmpresa = async(
 ) => {
     try
     {
-        const empresaExistente = await prisma.empresa.findFirst ({
+        const existingEmpresa = await prisma.empresa.findFirst({
             where: {
-                ruc: data.ruc,
+                OR: [
+                    { ruc: data.ruc },
+                    { razon_social: data.razon_social.trim() },
+                ],
                 id_empresa: {
                     not: data.id_empresa
                 }
             },
         });
 
-        if (empresaExistente) {
+        console.log(existingEmpresa)
+    
+        if (existingEmpresa) {
+            if (existingEmpresa.ruc === data.ruc) {
             return { success: false, error: true, message: 'Ya existe una empresa con este RUC.' };
+            }
+            if (existingEmpresa.razon_social === data.razon_social.trim()) {
+            return { success: false, error: true, message: 'Ya existe una empresa con esta Razón Social.' };
+            }
         }
 
         const encryptClave = Encrypt.encrypt(data.clave);
