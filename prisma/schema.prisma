@@ -52,6 +52,7 @@ model declaracion {
   ind_confirmado     String?   @db.Bit(1)
   codigo             BigInt?
   id_declaracion_emp String?   @db.Uuid
+  ind_igv_justo      String?   @db.Bit(1)
 
   @@unique([id_declaracion_emp, f_periodo], map: "idx_id_declaracion_emp")
 }
@@ -108,23 +109,24 @@ model empresa_declaracion {
 }
 
 model notificacion {
-  id_notificacion   String    @id @db.Uuid
-  id_empresa        String?   @db.Uuid
-  tipo_notificacion String?   @db.Char(50)
-  f_envio           DateTime? @db.Date
-  e_envio           String?   @db.Char(2)
-  correo            String?   @db.VarChar(255)
-  whatsapp          String?   @db.Char(9)
-  periodo           Decimal?  @db.Decimal
-  f_ult_ejecucion   DateTime? @db.Date
-  f_creacion        DateTime? @db.Timestamp(6)
-  ruc               String?   @db.Char(11)
-  reporte_cuerpo    String?
-  reporte_asunto    String?   @db.Char(255)
-  leido             String?   @db.Bit(1)
-  f_periodo         String?   @db.Char(4)
-  Monto_total       Float?
-  estado_declarado  String?   @db.Char(4)
+  id_notificacion    String    @id @db.Uuid
+  id_empresa         String?   @db.Uuid
+  tipo_notificacion  String?   @db.Char(50)
+  f_envio            DateTime? @db.Date
+  e_envio            String?   @db.Char(2)
+  correo             String?   @db.VarChar(255)
+  whatsapp           String?   @db.Char(9)
+  periodo            Decimal?  @db.Decimal
+  f_ult_ejecucion    DateTime? @db.Date
+  f_creacion         DateTime? @db.Timestamp(6)
+  ruc                String?   @db.Char(11)
+  reporte_cuerpo     String?
+  reporte_asunto     String?   @db.Char(255)
+  leido              String?   @db.Bit(1)
+  f_periodo          String?   @db.Char(4)
+  Monto_total        Float?
+  estado_declarado   String?   @db.Char(4)
+  id_declaracion_emp String?   @db.Uuid
 }
 
 model pago {

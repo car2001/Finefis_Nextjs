@@ -19,6 +19,7 @@ const FormContainer = async ({ table, type, data, id }: FormContainerProps) => {
     switch (table) {
       case "empresa":
         const empresaClientes = await prisma.cliente.findMany({
+          where: {ind_actividad: "1"},
           select: { id_cliente: true, nombre: true },
         });
         relatedData = { clientes: empresaClientes };
@@ -26,6 +27,7 @@ const FormContainer = async ({ table, type, data, id }: FormContainerProps) => {
       case "declaraciones":
         const [empresaDeclaracionEmpresas, empresaDeclaracionCatalogo] = await prisma.$transaction([
           prisma.empresa.findMany({
+            where: {inactivo: "0"},
             select: { id_empresa: true, razon_social: true, ruc: true },
           }),
           prisma.catalogo_declaracion.findMany({
@@ -38,7 +40,9 @@ const FormContainer = async ({ table, type, data, id }: FormContainerProps) => {
             id_formulario: item.id_formulario ? item.id_formulario : null
           };
       });
-        relatedData = { empresas: empresaDeclaracionEmpresas, catalogoDeclaraciones: empresaDeclaracionCatlogoSanitized };
+
+      console.log(empresaDeclaracionEmpresas)
+      relatedData = { empresas: empresaDeclaracionEmpresas, catalogoDeclaraciones: empresaDeclaracionCatlogoSanitized };
         break;
       default:
         break;
