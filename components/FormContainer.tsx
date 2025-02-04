@@ -40,8 +40,6 @@ const FormContainer = async ({ table, type, data, id }: FormContainerProps) => {
             id_formulario: item.id_formulario ? item.id_formulario : null
           };
       });
-
-      console.log(empresaDeclaracionEmpresas)
       relatedData = { empresas: empresaDeclaracionEmpresas, catalogoDeclaraciones: empresaDeclaracionCatlogoSanitized };
         break;
       default:
