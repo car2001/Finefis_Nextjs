@@ -11,7 +11,7 @@ import { FormContainerProps } from "./FormContainer";
 const deleteActionMap: {[key:string]: any} = {
     empresa: deleteEmpresa,
     cliente: deleteCliente,
-    empresa_declaracion: deleteDeclaracion
+    declaraciones: deleteDeclaracion
 }
 
 const TeacherForm = dynamic(() => import('./forms/TeacherForm'), {
