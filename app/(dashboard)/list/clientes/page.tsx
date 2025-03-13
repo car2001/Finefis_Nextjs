@@ -57,7 +57,7 @@ const renderRow = (item: ClientesList) => {
             <td className="hidden md:table-cell">{item.email?.toString() || "" }</td>
             <td className="hidden md:table-cell">{item.num_cel?.toString() || "" }</td>
             <td className="hidden md:table-cell">
-                {item?.ind_actividad === "1" 
+                {item?.ind_actividad 
                     ? ( <span className="text-green-400 text-xl">✔</span> ) 
                     : ( <span className="text-red-500 text-lg font-bold">✖</span> )
                 }

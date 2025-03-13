@@ -76,7 +76,7 @@ const renderRow = (item: EmpresaList) => {
             <td className="hidden md:table-cell">{maskKey(item.clave)}</td>
             <td className="hidden md:table-cell">{item.email}</td>
             <td className="hidden md:table-cell">
-                {item?.inactivo === "1" 
+                {item?.inactivo
                     ? ( <span className="text-red-500 text-lg font-bold">✖</span> )
                     : ( <span className="text-green-400 text-xl">✔</span> ) 
                 }

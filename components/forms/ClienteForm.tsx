@@ -103,7 +103,7 @@ const ClienteForm = ({
                 <CheckBoxField 
                     name="ind_actividad"
                     label= "¿Está activo?"
-                    defaultValue={data?.ind_actividad  === "1"}
+                    defaultValue={data?.ind_actividad}
                     register={register}
                     error={errors?.ind_actividad}
                 />

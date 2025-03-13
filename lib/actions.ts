@@ -46,7 +46,7 @@ export const createEmpresa = async(
                 clave: encryptClave,
                 email: data.email,
                 id_cliente: parseInt(data.id_cliente),
-                inactivo: data.inactivo ? "1" : "0"
+                inactivo: data.inactivo
             }
         });
 
@@ -102,7 +102,7 @@ export const updateEmpresa = async(
                 usuario: data.usuario,
                 clave: encryptClave,
                 email: data.email,
-                inactivo: data.inactivo ? "1" : "0"
+                inactivo: data.inactivo
             }
         });
 
@@ -160,7 +160,7 @@ export const createCliente = async(
                 nombre: data.nombre,
                 num_cel: data.num_cel,
                 email: data.email,
-                ind_actividad: data.ind_actividad ? "1" : "0"
+                ind_actividad: data.ind_actividad
             }
         })
 
@@ -198,7 +198,7 @@ export const updateCliente = async(
                 nombre: data.nombre,
                 num_cel: data.num_cel,
                 email: data.email,
-                ind_actividad: data.ind_actividad ? "1" : "0"
+                ind_actividad: data.ind_actividad
             }
         });
 
@@ -251,9 +251,9 @@ export const createDeclaracion = async(
                 d_d_venci: Number.parseInt(data.d_d_venci),
                 d_a_v_alerta: Number.parseInt(data.d_a_v_alerta),
                 d_recur_d_venci: Number.parseInt(data.d_recur_d_venci),
-                ind_notif_apagado: data.ind_notif_apagado ? "1" : "0",
+                ind_notif_apagado: data.ind_notif_apagado,
                 id_formulario: parseInt(data.id_formulario),
-                ind_notif_by_chg: data.ind_notif_by_chg ? "1" : "0"
+                ind_notif_by_chg: data.ind_notif_by_chg
             }
         })
         return { success: true, error: false, message:"" };
@@ -291,9 +291,9 @@ export const updateDeclaracion = async(
                 d_d_venci: Number.parseInt(data.d_d_venci),
                 d_a_v_alerta: Number.parseInt(data.d_a_v_alerta),
                 d_recur_d_venci: Number.parseInt(data.d_recur_d_venci),
-                ind_notif_apagado: data.ind_notif_apagado ? "1" : "0",
+                ind_notif_apagado: data.ind_notif_apagado ,
                 id_formulario: parseInt(data.id_formulario),
-                ind_notif_by_chg: data.ind_notif_by_chg ? "1" : "0"
+                ind_notif_by_chg: data.ind_notif_by_chg
             }
         });
 

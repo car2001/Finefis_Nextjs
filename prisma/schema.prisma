@@ -23,8 +23,14 @@ model cliente {
   dni           String?   @db.VarChar
   email         String?   @db.VarChar(255)
   num_cel       String?   @db.Char(12)
-  ind_actividad String?   @db.Bit(1)
+  ind_actividad Boolean?  @default(false)
   empresa       empresa[]
+}
+
+model cliente_usuario {
+  id_cliente_usuario BigInt @id @default(autoincrement())
+  id_usuario         Int?
+  id_cliente         Int?
 }
 
 model cronograma_venci {
@@ -65,6 +71,8 @@ model detalle_tributo {
   total_deuda     Decimal? @db.Decimal
   total_pago      Decimal? @db.Decimal
   codigo_tributo  Decimal? @db.Decimal
+  nro_orden       String?  @db.Char(10)
+  nro_ope         String?  @db.Char(20)
 
   @@unique([id_declaracion, id_empresa, codigo_tributo], map: "idx_detalle_tributo_declaracion_empresa_tributo")
 }
@@ -76,10 +84,10 @@ model empresa {
   id_cliente          Int?
   usuario             String?               @db.VarChar(20)
   clave               String?
-  inactivo            String?               @db.Bit(1)
-  bloqueado           String?               @db.Bit(1)
   email               String?               @db.VarChar(255)
   nombre              String?               @db.VarChar(255)
+  inactivo            Boolean?              @default(false)
+  bloqueado           Boolean?              @default(false)
   cliente             cliente?              @relation(fields: [id_cliente], references: [id_cliente], onDelete: NoAction, onUpdate: NoAction, map: "fk_empresa_cliente")
   empresa_declaracion empresa_declaracion[]
 }
@@ -93,14 +101,14 @@ model empresa_declaracion {
   d_a_v_rev            Int?
   d_d_v_rev            Int?
   d_a_v_alerta         Int?
-  f_creacion           DateTime?             @db.Timestamp(6)
+  f_creacion           DateTime?             @default(now()) @db.Timestamptz(6)
   per_ini_declaracion  String?               @db.Char(4)
   per_fin_declaracion  String?               @db.Char(4)
   codigo               BigInt                @default(autoincrement())
-  ind_notif_apagado    String?               @db.Bit(1)
+  ind_notif_apagado    Boolean?
   d_a_venci_2          Int?
   d_recur_d_venci      Int?
-  ind_notif_by_chg     String?               @db.Bit(1)
+  ind_notif_by_chg     Boolean?
   id_formulario        Int?
   catalogo_declaracion catalogo_declaracion? @relation(fields: [id_formulario], references: [id_formulario], onDelete: Cascade, onUpdate: NoAction, map: "fk_catalogo_declaracion")
   empresa              empresa               @relation(fields: [id_empresa], references: [id_empresa], onDelete: Cascade, map: "fk_empresa")
@@ -141,8 +149,9 @@ model pago {
   monto          Decimal?  @db.Decimal
   banco          String?   @db.VarChar(200)
   f_presentacion DateTime? @db.Date
+  nro_ope        String?   @db.Char(20)
 
-  @@unique([id_declaracion, id_empresa, id_formulario], map: "idx_pago_declaracion_empresa_formulario")
+  @@unique([id_declaracion, id_empresa, nro_orden, nro_ope], map: "idx_pago_declaracion_empresa_formulario")
 }
 
 model regla_notificacion {
@@ -182,9 +191,14 @@ model rol {
 }
 
 model usuario {
-  id_usuario BigInt @id(map: "c_usuario_pkey")
-  usuario    String @db.Char(1)
-  clave      String @db.Char(1)
+  id_usuario     BigInt    @id(map: "c_usuario_pkey") @default(autoincrement())
+  clave          String
+  dni            String    @db.Char(8)
+  nombre         String
+  apellidos      String
+  telefono       String    @db.VarChar(20)
+  activo         Boolean?
+  fecha_creacion DateTime? @default(now()) @db.Timestamptz(6)
 }
 
 model usuario_rol {

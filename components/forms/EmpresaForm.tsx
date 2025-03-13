@@ -147,7 +147,7 @@ const EmpresaForm = ({
             <CheckBoxField
                 name="inactivo"
                 label="¿Está inactivo?"
-                defaultValue={data?.inactivo === "1"}
+                defaultValue={data?.inactivo}
                 register={register}
                 error={errors?.inactivo}
             />

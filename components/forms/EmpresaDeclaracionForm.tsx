@@ -40,8 +40,8 @@ const EmpresaDeclaracionForm = ({
     const onSubmit = handleSubmit(data => {
         startTransition(async () => {
             formAction(data);
-        })
-    })
+        });
+    });
 
     const router = useRouter();
 
@@ -175,14 +175,14 @@ const EmpresaDeclaracionForm = ({
                 <CheckBoxField 
                     name="ind_notif_apagado"
                     label= "Notificación Apagado"
-                    defaultValue={data?.ind_notif_apagado  === "1"}
+                    defaultValue={data?.ind_notif_apagado }
                     register={register}
                     error={errors?.ind_notif_apagado}
                 />
                 <CheckBoxField 
                     name="ind_notif_by_chg"
                     label= "Ind. Notificación Vencimiento Cambios"
-                    defaultValue={data?.ind_notif_by_chg  === "1"}
+                    defaultValue={data?.ind_notif_by_chg}
                     register={register}
                     error={errors?.ind_notif_by_chg}
                 />
